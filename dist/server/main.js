@@ -14,7 +14,7 @@ var globalConfig = {
 };
 
 var rootPath = path.dirname(__dirname);
-var port = Number(process.env.PORT || 9999);
+var port = Number(process.env.PORT || 80);
 
 app.set('views', path.join(rootPath, 'server'));
 app.engine('html', cons.handlebars);
