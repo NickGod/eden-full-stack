@@ -1,0 +1,87 @@
+<div class="page-header">
+  <h1>News Feed <small>Share your pain and comfort your peers</small></h1>
+</div>
+
+   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Write down your thoughts...</button>
+
+   <div ng-controller="NewsCtrl" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="exampleModalLabel">New post</h4>
+          </div>
+          <div class="modal-body">
+            <form ng-submit="submitPost()">
+              <div class="form-group">
+                <label for="recipient-name" class="control-label">Title:</label>
+                <input type="text" class="form-control" id="post-title" ng-model="news.title">
+              </div>
+              <div class="form-group">
+                <label for="message-text" class="control-label">Content:</label>
+                <textarea rows="20" class="form-control" id="text" ng-model="news.content"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </form>
+          </div>
+          <div class="modal-footer">
+          </div>
+        </div>
+      </div>
+    </div>
+
+<div class="container_fluid ">
+  <div class="row">
+    <div class="container_fluid posts-list col-md-2">
+      <div class="row">
+          <div>
+            <div class="list-group" >
+            <div ng-repeat="news in posts">
+              <a href="#/posts/{{ post.$id }}" class="list-group-item" >
+                  <h4 class="list-group-item-heading">
+                    {{ news.title }} 
+                  </h4>
+
+                  <p class="list-group-item-text"> {{news.content}} </p>
+<!--                   <p> the type is: {{post.type}} </p>
+ -->              </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="container_fluid posts-page col-md-8">
+    <div class="container">
+      <p> Select post on left side to see the post </p>
+    </div>
+
+<!--       <div class="post row" >
+
+        <div class="col-md-9">
+
+          <div class="info">
+            <a ng-href="#/posts/{{post.$id}}">
+              {{ post.title }}
+              <span class="url">({{ post.url | hostnameFromUrl }})</span>
+            </a>
+
+            <p> {{post.content}} </p>
+          </div>
+          <div>
+            <span>submitted by <a ng-href="#/users/{{ post.creatorUID }}">{{ post.creator }}</a></span>
+            &mdash;
+            <a ng-href="#/posts/{{ post.$id }}">comments</a>
+            <a ng-click="deletePost(post)" ng-show="user.uid === post.creatorUID">delete</a>
+          </div>
+        </div>
+      </div>
+ -->
+    </div>
+  </div>
+  </br>
+  </br>
+
+</div>
