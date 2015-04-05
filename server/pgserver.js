@@ -2,7 +2,6 @@ var pg = require('pg');
 var express = require('express');
 var bodyParser = require('body-parser');
 
-
 var userRepository = require('./repositories/userRepository');
 var postRepository = require('./repositories/postRepository');
 var commentRepository = require('./repositories/commentRepository');
@@ -26,6 +25,10 @@ router.post('/users/create', function(req, res){
 });
 
 //posts api
+router.get('/posts/:post_id', function(req, res){
+  postRepository.getPost(req, res);
+});
+
 router.post('/posts/create', function(req, res){
   postRepository.createPost(req, res);
 });

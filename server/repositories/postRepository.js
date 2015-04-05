@@ -5,6 +5,16 @@ var knex = require('knex')({
   connection : conString
 });
 
+exports.getPost = function(req, res){
+  knex('posts')
+  .select()
+  .where({'post_id' : req.params.post_id})
+  .exec(function(err, result){
+    if(!err) res.send(result);
+    else res.send({'error' : 'could not get post'});
+  });
+};
+
 exports.createPost = function(req, res){
   knex('posts')
   .insert({'community_id' : req.body.community_id,
