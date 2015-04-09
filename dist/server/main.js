@@ -3,6 +3,8 @@ var url = require('url');
 var express = require('express');
 var cons = require('consolidate');
 var cookieParser = require('cookie-parser');
+var passport = require('passport');
+var expressSession = require('express-session');
 
 var app = module.exports = express();
 
@@ -23,6 +25,10 @@ if(globalConfig.environment == 'local') {
 }
 
 app.use(cookieParser());
+
+app.use(expressSession({secret: '$w@gD4ddy'}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(function(req, res, next) {
     var config = configFromReq(req);
