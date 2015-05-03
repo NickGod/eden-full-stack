@@ -64,6 +64,10 @@ var app = angular
         templateUrl: 'views/profile.html',
         controller: 'ProfileCtrl'
       })
+      .when('/registerpg', {
+        templateUrl : 'views/register2.html',
+        controller: 'AuthenticationCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

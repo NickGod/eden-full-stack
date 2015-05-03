@@ -58,7 +58,18 @@ module.exports = function(grunt) {
                 dest: 'dist/app/unminified'
             }
         },
-
+        servers: {
+          test: {
+            // command name default is node
+            cmd: "node",
+            // arguments, required
+            args: ["server/main.js", "server/pgserver.js"],
+            // port settings
+            ports: [3000, 3001],
+            // keepalive default is false
+            keepalive: true,
+        }
+      },
         jshint: {
             app: {
                 options: {
@@ -136,7 +147,7 @@ module.exports = function(grunt) {
             server: {
                 options: {
                     script: 'dist/server/main.js',
-                    port: 80
+                    port: 20001
                 }
             }
         },
@@ -208,7 +219,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('copy-server-dist', 'Copy server files to dist',
     function() {
-        grunt.task.run('copy:server'); 
+        grunt.task.run('copy:server');
         grunt.task.run('copy:server_unminified');
         if(minOption()) {
             grunt.task.run('copy:server_minified');
@@ -250,6 +261,8 @@ module.exports = function(grunt) {
         'watch'
     ]);
 
+    grunt.loadNpmTasks('grunt-multi-servers');
+    
     function setEnvVars() {
         if(minOption()) {
             process.env.MINIFY = 'yes';

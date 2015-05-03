@@ -3,8 +3,17 @@ var url = require('url');
 var express = require('express');
 var cons = require('consolidate');
 var cookieParser = require('cookie-parser');
+var pg = require('./apiClient');
+var bodyParser  = require('body-parser');
+
+//built in modules
+var userAuth = require('./userAuth');
 
 var app = module.exports = express();
+app.use(bodyParser());
+app.use(cookieParser());
+
+userAuth.configureUserAuth(app);
 
 var globalConfig = {
     minify: process.env.MINIFY == 'yes' ? true : false,
@@ -14,6 +23,8 @@ var globalConfig = {
 var rootPath = path.dirname(__dirname);
 var port = Number(process.env.PORT || 80);
 
+console.log('Designated Port: ' + process.env.PORT);
+
 app.set('views', path.join(rootPath, 'server'));
 app.engine('html', cons.handlebars);
 app.set('view engine', 'html');
@@ -22,7 +33,6 @@ if(globalConfig.environment == 'local') {
     app.use(require('connect-livereload')());
 }
 
-app.use(cookieParser());
 
 app.use(function(req, res, next) {
     var config = configFromReq(req);
@@ -49,9 +59,14 @@ app.get('/', function(req, res) {
     renderIndex(req.config, res);
 });
 
-app.use(function(req, res) {
-    res.redirect('/');
-});
+app.use('/api', pg.handleRequest);
+
+
+//app.use(function(req, res) {
+//    console.log(req);
+//    res.redirect('/');
+//});
+
 
 app.listen(port, function() {
     console.log('Server listening on port ' + port);

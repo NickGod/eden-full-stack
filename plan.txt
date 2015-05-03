@@ -1,0 +1,3 @@
+- login, register (users), -- 2 weeks
+  posts, comments, -- 2 more weeks
+- write up plan for week, set up github

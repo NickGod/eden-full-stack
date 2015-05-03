@@ -1,4 +1,25 @@
 'use strict';
+app.factory('PgAuth', function($http, $rootScope){
+    var PgAuth = {
+    register: function(user, next){
+      $http.post('/register', {
+        username : user.username,
+        firstName : user.firstName,
+        lastName : user.lastName,
+        password : user.password,
+        email : user.email
+      }).
+        success(function(data, status, headers, config) {
+          next(data);
+      })
+      .error(function(data, status, headers, config) {
+  	     console.log(data);
+      });
+    },
+  };
+  
+  return PgAuth;
+});
 
 app.factory('Auth', function ($firebaseSimpleLogin, FIREBASE_URL, $rootScope, $firebase) {
   var ref = new Firebase(FIREBASE_URL);
@@ -14,7 +35,6 @@ app.factory('Auth', function ($firebaseSimpleLogin, FIREBASE_URL, $rootScope, $f
   // }
   // });
 
-  
   var Auth = {
     register: function (user) {
       return auth.$createUser(user.email, user.password);
