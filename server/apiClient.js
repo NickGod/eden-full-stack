@@ -5,7 +5,6 @@ var bodyParser = require('body-parser');
 var userRepository = require('./repositories/userRepository');
 var postRepository = require('./repositories/postRepository');
 var commentRepository = require('./repositories/commentRepository');
-var authRepository = require('./repositories/authRepository');
 
 var router = express.Router();
 

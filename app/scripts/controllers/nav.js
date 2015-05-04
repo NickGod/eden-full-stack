@@ -1,10 +1,14 @@
 'use strict';
 
-app.controller('NavCtrl', function ($scope, $location, Post, Auth) {
+app.controller('NavCtrl', function ($scope, $location, Post, PgAuth) {
   $scope.post = {title: '', content:''};
-  $scope.signedIn = Auth.signedIn;
-  $scope.logout = Auth.logout;
-  $scope.user = Auth.user;
+ 
+ $scope.signedIn = PgAuth.signedIn;
+ $scope.logout = PgAuth.logout;
+ $scope.user = PgAuth.user;
+  //$scope.signedIn = Auth.signedIn;
+  //$scope.logout = Auth.logout;
+  //$scope.user = Auth.user;
 
   $scope.submitPost = function() {
     $scope.post.creator = $scope.user.profile.username;

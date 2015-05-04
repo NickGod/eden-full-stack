@@ -5,10 +5,10 @@ var User = require('./models/user').User;
 var session = require('express-session');
 
 exports.configureUserAuth = function(app){
-        app.use(session({ secret: 'swag daddy', cookie: { maxAge: 60000 }}));
+        app.use(session({ secret: 'swag daddy', cookie: { maxAge: 2592000000 }}));
     	app.use(passport.initialize());
         app.use(passport.session());   
-    
+        
         app.post('/login',
             passport.authenticate('local', {
             successRedirect: '/loginSuccess',
@@ -17,13 +17,23 @@ exports.configureUserAuth = function(app){
  
         app.get('/loginFailure', function(req, res, next) {
             res.json({
-                success : false
+                success : false,
+                errors : [
+                    'incorrect username or password'
+                ]
             });
         });
  
     	app.get('/loginSuccess', function(req, res, next) {
             res.json({
-                success : true
+                success : true,
+                user : req.user
+            });
+        });
+        
+        app.get('/currentUser', function(req, res){
+            res.json({
+                user : req.user
             });
         });
         
@@ -102,7 +112,18 @@ exports.configureUserAuth = function(app){
                 if(!user){
                     return done(null, false);
                 }
-                return done(null, user);
+                user.verifyPassword(password, function(err, res){
+                    if(res){
+                        return done(null, user);
+                    }
+                    else if(err){
+                        return done(null, err);
+                    }
+                    else {
+                        return done(null, false);
+                    }
+                });
+                //return done(null, user);
                 })
                 .catch(function(err){
                     return done(err);

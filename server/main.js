@@ -3,7 +3,7 @@ var url = require('url');
 var express = require('express');
 var cons = require('consolidate');
 var cookieParser = require('cookie-parser');
-var pg = require('./apiClient');
+var apiClient = require('./apiClient');
 var bodyParser  = require('body-parser');
 
 //built in modules
@@ -59,7 +59,7 @@ app.get('/', function(req, res) {
     renderIndex(req.config, res);
 });
 
-app.use('/api', pg.handleRequest);
+app.use('/api', apiClient.handleRequest);
 
 
 //app.use(function(req, res) {

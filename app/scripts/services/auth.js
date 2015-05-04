@@ -13,9 +13,40 @@ app.factory('PgAuth', function($http, $rootScope){
           next(data);
       })
       .error(function(data, status, headers, config) {
-  	     console.log(data);
+  	     next( {errors : 'Error registering user, please try again'});
       });
     },
+    login: function(user, next){
+      $http.post('/login', {
+        username : user.username,
+        password : user.password
+      })
+      .success(function(data, status, headers, config){
+        if(data.success){
+          PgAuth.user = data.user;
+        }
+        next(data);
+      })
+      .error(function(data, status, headers, config){
+        next({errors : 'Error logging in user, please try again'});
+      });
+    },
+    logout : function(next){
+      $http.post('/logout')
+      .success(function(data, status, headers, config){
+        if(data.success){
+          PgAuth.user = null;
+        }
+        next(data);
+      })
+      .error(function(data, status, headers, config){
+        next({errors : 'Error logging in user, please try again'});
+      });
+    },
+    signedIn : function () {
+        return !!PgAuth.user;
+    },
+    user : null,
   };
   
   return PgAuth;

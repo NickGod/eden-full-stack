@@ -21,8 +21,8 @@ exports.User = sequelize.define('User', {
 	tableName : 'users',
 	timestamps : true,
 	updatedAt : 'modifiedDate',
-	createdAt : 'createdDate'
-	}, {
+	createdAt : 'createdDate',
+    deletedAt : 'deletedDate',
     paranoid: true,
     instanceMethods: {
       setPassword: function(password, done) {
@@ -43,4 +43,4 @@ exports.User = sequelize.define('User', {
 });
 
 
-exports.User.sync();
+this.User.sync();
