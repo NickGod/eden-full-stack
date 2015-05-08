@@ -1,5 +1,46 @@
+var Post = require('../models/post').Post;
+
+
+exports.createPost = function(post, done){
+  var newPost = Post.build(post);
+  newPost.save()
+  .then(function(post){
+    done(null, post)
+  })
+  .catch(function(err){
+    done(err, null);
+  });
+};
+
+exports.getPostById = function(postId, done){
+  Post.find({
+    where : {postId : postId}
+  })
+  .then(function(post){
+    done(null, post);
+  })
+  .catch(function(err){
+    done(err, null);
+  });
+};
+
+exports.getPostsByCommunityId = function(communityId , done){
+  Post.findAll({
+    where : {communityId : communityId}
+  })
+  .then(function(posts){
+    done(null, posts);
+  })
+  .catch(function(err){
+    done(err, null);
+  });
+};
+
+/*
 var pg = require('pg');
 var conString = 'pg://admin:edenhack@104.131.122.35:5432/Eden';
+
+
 var knex = require('knex')({
   client: 'pg',
   connection : conString
@@ -49,3 +90,5 @@ exports.deletePost = function(req, res){
       res.send({'post_deleted' : false});
   });
 };
+
+*/

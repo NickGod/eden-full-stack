@@ -72,6 +72,15 @@ var app = angular
         templateUrl : 'views/login2.html',
         controller : 'AuthenticationCtrl'
       })
+      .when('/communities',{
+        templateUrl : 'views/communities.html',
+        controller : 'CommunitiesCtrl'
+      })
+      .when('/communities/:communityName', {
+        templateUrl : 'views/communityposts.html',
+        controller : 'CommunityPostsCtrl'
+        
+      })
       .otherwise({
         redirectTo: '/'
       });

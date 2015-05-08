@@ -5,43 +5,75 @@ var bodyParser = require('body-parser');
 var userRepository = require('./repositories/userRepository');
 var postRepository = require('./repositories/postRepository');
 var commentRepository = require('./repositories/commentRepository');
+var communityRepository = require('./repositories/communityRepository');
+
+var expressJwt = require('express-jwt');
+var jwt = require('jsonwebtoken');
 
 var router = express.Router();
 
-//registration api
-router.post('/register',  function (req, res) {
-      authRepository.registerUser(req, res);
-});
+//router.use('/', expressJwt({ secret : 'sW@gD4ddy'}));
 
 //users api
-router.get('/users/:user_id', function(req, res){
-  userRepository.findUserById(req.body.userId,function(err, user){
-    res.send(user);
+router.get('/users/:userId', function(req, res){
+  userRepository.findUserById(req.params.userId,function(err, user){
+    if(!err){
+      res.send(user);
+    }
+    else {
+      res.send({error : err.message});
+    }
   });
-  //userRepository.getUser(req, res);
 });
 
 
 router.post('/users/create', function(req, res){
-  //userRepository.createUser(req, res);
   userRepository.createUser({
     firstName : req.body.firstName,
     lastName : req.body.lastName,
     username : req.body.username,
     password : req.body.password,
     email : req.body.email
-  }, function (user) {
-    res.send(user);
+  }, function (err, user) {
+    if(!err){
+      res.send(user);
+    }
+    else {
+      res.send({error : err.message});
+    }
   });
 });
 
 //posts api
-router.get('/posts/:post_id', function(req, res){
-  postRepository.getPost(req, res);
+router.get('/posts/:postId', function(req, res){
+  postRepository.getPostById(req.params.postId, function (err, post) {
+    if(!err){
+      res.send(post);
+    }
+    else{
+      res.send({error : err.message});
+    }
+  });
 });
 
 router.post('/posts/create', function(req, res){
-  postRepository.createPost(req, res);
+  var post = {
+    communityId : req.body.communityId,
+    userId : req.body.userId,
+    title : req.body.title,
+    body : req.body.body,
+  };
+  postRepository.createPost(post, function(err, post){
+    if(!err){
+      res.send({
+        success : true, 
+        postId : post.postId
+      });
+    }
+    else{
+      res.send({error : err.message});
+    }
+  });
 });
 
 router.post('/posts/update/:post_id', function(req, res){
@@ -63,6 +95,38 @@ router.post('/comments/update/:comment_id', function(req, res){
 
 router.delete('/comments/delete/:comment_id', function(req, res){
   commentRepository.deleteComment(req, res);
+});
+
+
+//community api
+
+router.get('/communities', function(req, res){
+  communityRepository.getAllCommunities(function(communities){
+    res.send(communities);
+  });
+});
+
+router.get('/communities/:communityName', function(req, res){
+  communityRepository.getCommunityByCommunityName(req.params.communityName, function(err, community){
+    if(!err){
+      res.send(community);
+    }
+    else{
+      res.send({error : err.message});
+    }
+  });
+});
+
+router.get('/communities/:communityId/posts', function(req, res){
+  //res.send(req.params.communityId);
+  postRepository.getPostsByCommunityId(req.params.communityId, function(err, posts){
+    if(!err){
+      res.send(posts);
+    }
+    else{
+      res.send({error : err.message});
+    }
+  });
 });
 
 exports.handleRequest = router;

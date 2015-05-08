@@ -1,12 +1,10 @@
 'use strict';
 
-app.controller('AuthenticationCtrl', function ($scope, $location, PgAuth) {
-/*
-  if (user) {
+app.controller('AuthenticationCtrl', function ($scope, $location, $window, PgAuth) {
+if (PgAuth.user) {
     $location.path('/');
   }
- */
- 
+   
   $scope.registerUser = function(){
     PgAuth.register($scope.user, function (data) {
       if(data.errors){

@@ -3,6 +3,12 @@ var sequelize = new Sequelize('postgres://admin:edenhack@104.131.122.35:5432/Ede
 var bcrypt = require('bcrypt');
 
 exports.User = sequelize.define('User', {
+    userId : {
+      type : Sequelize.UUID,
+      primaryKey : true,
+      defaultValue : Sequelize.UUIDV4,
+	  allowNulls : false	
+    },
     userType : Sequelize.STRING,
 	firstName : Sequelize.STRING,
 	lastName : Sequelize.STRING,

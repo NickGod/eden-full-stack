@@ -2,7 +2,10 @@ var passport = require('passport');
 var userRepository = require('./repositories/userRepository');
 var LocalStrategy = require('passport-local').Strategy;
 var User = require('./models/user').User;
+var Community = require('./models/community').Community;
 var session = require('express-session');
+
+var jwt = require('jsonwebtoken');
 
 exports.configureUserAuth = function(app){
         app.use(session({ secret: 'swag daddy', cookie: { maxAge: 2592000000 }}));
@@ -10,10 +13,10 @@ exports.configureUserAuth = function(app){
         app.use(passport.session());   
         
         app.post('/login',
-            passport.authenticate('local', {
-            successRedirect: '/loginSuccess',
-            failureRedirect: '/loginFailure'
-        }));
+                passport.authenticate('local', {
+                    successRedirect : '/loginSuccess',
+                    failureRedirect : '/loginFailure'
+        }));
  
         app.get('/loginFailure', function(req, res, next) {
             res.json({
@@ -25,9 +28,11 @@ exports.configureUserAuth = function(app){
         });
  
     	app.get('/loginSuccess', function(req, res, next) {
+            var token = jwt.sign(req.user, 'swag daddy', {expiresInMinutes : 60*5});
             res.json({
                 success : true,
-                user : req.user
+                user : req.user,
+                token : token
             });
         });
         

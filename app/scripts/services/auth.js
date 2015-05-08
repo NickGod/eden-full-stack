@@ -1,5 +1,5 @@
 'use strict';
-app.factory('PgAuth', function($http, $rootScope){
+app.factory('PgAuth', function($http, $rootScope, $window){
     var PgAuth = {
     register: function(user, next){
       $http.post('/register', {
@@ -10,6 +10,10 @@ app.factory('PgAuth', function($http, $rootScope){
         email : user.email
       }).
         success(function(data, status, headers, config) {
+          if(data.success){ 
+            $window.sessionStorage.token = data.token;
+            PgAuth.user = data.user;
+          }
           next(data);
       })
       .error(function(data, status, headers, config) {
@@ -23,6 +27,7 @@ app.factory('PgAuth', function($http, $rootScope){
       })
       .success(function(data, status, headers, config){
         if(data.success){
+          $window.sessionStorage.token = data.token;
           PgAuth.user = data.user;
         }
         next(data);
@@ -32,10 +37,10 @@ app.factory('PgAuth', function($http, $rootScope){
       });
     },
     logout : function(next){
-      $http.post('/logout')
+      $http.get('/logout')
       .success(function(data, status, headers, config){
         if(data.success){
-          PgAuth.user = null;
+          delete $window.sessionStorage.token;
         }
         next(data);
       })
@@ -44,7 +49,7 @@ app.factory('PgAuth', function($http, $rootScope){
       });
     },
     signedIn : function () {
-        return !!PgAuth.user;
+        return !!$window.sessionStorage.token;
     },
     user : null,
   };

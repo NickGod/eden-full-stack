@@ -62,12 +62,6 @@ app.get('/', function(req, res) {
 app.use('/api', apiClient.handleRequest);
 
 
-//app.use(function(req, res) {
-//    console.log(req);
-//    res.redirect('/');
-//});
-
-
 app.listen(port, function() {
     console.log('Server listening on port ' + port);
 });
