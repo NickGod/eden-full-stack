@@ -1,6 +1,6 @@
-app.factory('Communities', function($http, $rootScope){
+app.factory('CommunitiesService', function($http, $rootScope){
 	
-	var Communities = {
+	var CommunitiesService = {
 		all : function(done){
 			$http.get('/api/communities')
 			.success(function (communities){
@@ -15,6 +15,5 @@ app.factory('Communities', function($http, $rootScope){
 		}
 	};
 	
-	
-	return Communities;
+	return CommunitiesService;
 });

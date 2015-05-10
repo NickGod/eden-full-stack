@@ -1,5 +1,5 @@
 var Post = require('../models/post').Post;
-
+var User = require('../models/user').User;
 
 exports.createPost = function(post, done){
   var newPost = Post.build(post);
@@ -14,7 +14,8 @@ exports.createPost = function(post, done){
 
 exports.getPostById = function(postId, done){
   Post.find({
-    where : {postId : postId}
+    where : { postId : postId },
+    include : [{model :User, attributes : ["firstName", "lastName"]}]
   })
   .then(function(post){
     done(null, post);
@@ -26,7 +27,9 @@ exports.getPostById = function(postId, done){
 
 exports.getPostsByCommunityId = function(communityId , done){
   Post.findAll({
-    where : {communityId : communityId}
+    where : {communityId : communityId},
+    order : '"createdDate" DESC',
+    include : [{model :User, attributes : ["firstName", "lastName"]}]
   })
   .then(function(posts){
     done(null, posts);

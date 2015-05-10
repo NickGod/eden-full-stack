@@ -1,5 +1,19 @@
 'use strict';
 
+app.factory('PostService', function($http){
+  var PostService = {
+    getPostByPostId : function(postId, done){
+      $http.get('/api/posts/' + postId)
+      .success(function (post) {
+        done(post);
+      });
+    }
+  };
+  
+  return PostService;
+});
+
+/*
 app.factory('Post',
   function($firebase, FIREBASE_URL) {
     var ref = new Firebase(FIREBASE_URL);
@@ -27,3 +41,4 @@ app.factory('Post',
     return Post;
   }
 );
+*/

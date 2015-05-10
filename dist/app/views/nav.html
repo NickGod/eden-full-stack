@@ -28,12 +28,12 @@
     </form>
     <ul class="nav navbar-nav navbar-right">
       <li ng-show="signedIn()">
-        <p class="navbar-text" style="color: white">{{ user.profile.username }}</p>
+        <p class="navbar-text" style="color: white">Welcome, {{ user.firstName }} {{ user.lastName }}!</p>
       </li>
       <li ng-show="signedIn()">
-        <a ng-href="#/users/{{ user.uid }}">
+        <a ng-href="#/users/{{ user.userId }}">
           <img ng-src="http://www.gravatar.com/avatar/{{ user.profile.md5_hash }}" class="nav-pic" />
-          {{ currentUser.username }}
+          {{ user.username }}
         </a>
       </li>
       <li ng-show="signedIn()">

@@ -1,15 +1,15 @@
 'use strict';
 
-app.controller('NavCtrl', function ($scope, $location, Post, PgAuth) {
-  $scope.post = {title: '', content:''};
+app.controller('NavCtrl', function ($scope, $location, $cookieStore, AuthService) {
  
- $scope.signedIn = PgAuth.signedIn;
- $scope.logout = PgAuth.logout;
- $scope.user = PgAuth.user;
+ $scope.signedIn = AuthService.signedIn;
+ $scope.logout = AuthService.logout;
+ $scope.user = $cookieStore.get('currentUser');
   //$scope.signedIn = Auth.signedIn;
   //$scope.logout = Auth.logout;
   //$scope.user = Auth.user;
 
+/*
   $scope.submitPost = function() {
     $scope.post.creator = $scope.user.profile.username;
     $scope.post.creatorUID = $scope.user.uid;
@@ -18,5 +18,6 @@ app.controller('NavCtrl', function ($scope, $location, Post, PgAuth) {
       $scope.post = {title: '', content: ''};
     });
   };
+*/
 
 });

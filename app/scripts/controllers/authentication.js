@@ -1,12 +1,12 @@
 'use strict';
 
-app.controller('AuthenticationCtrl', function ($scope, $location, $window, PgAuth) {
-if (PgAuth.user) {
+app.controller('AuthenticationCtrl', function ($scope, $location, $window, AuthService) {
+if (AuthService.user()) {
     $location.path('/');
   }
    
   $scope.registerUser = function(){
-    PgAuth.register($scope.user, function (data) {
+    AuthService.register($scope.user, function (data) {
       if(data.errors){
           $scope.errors = data.errors;
       }
@@ -17,7 +17,7 @@ if (PgAuth.user) {
   };
   
   $scope.loginUser = function(){
-    PgAuth.login($scope.user, function(data){
+    AuthService.login($scope.user, function(data){
       if(data.errors){
           $scope.errors = data.errors;
       }
@@ -28,7 +28,7 @@ if (PgAuth.user) {
   };
   
   $scope.logoutUser = function(){
-    PgAuth.logout(function(data){
+    AuthService.logout(function(data){
       if(data.success){
         $location.path('/');
       }

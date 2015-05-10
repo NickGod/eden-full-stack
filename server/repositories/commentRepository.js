@@ -1,3 +1,30 @@
+var Comment = require('../models/comment').Comment;
+
+
+exports.createComment = function(comment, done){
+  var newComment = Comment.build(comment);
+  newComment.save()
+  .then(function(comment){
+    done(null, comment);
+  })
+  .catch(function(err){
+    done(err, null);
+  });
+};
+
+exports.getCommentsByPostId = function(postId, done){
+  Comment.findAll({
+    where : { postId : postId }
+  })
+  .then(function (comments) {
+    done(null, comments);
+  })
+  .catch(function(err){
+    done(err, null);
+  });
+};
+
+/*
 var pg = require('pg');
 var conString = 'pg://admin:edenhack@104.131.122.35:5432/Eden';
 var knex = require('knex')({
@@ -35,3 +62,4 @@ exports.deleteComment = function(req, res){
     else res.send({'comment_deleted' : false});
   });
 };
+*/

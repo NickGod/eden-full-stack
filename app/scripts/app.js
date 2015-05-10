@@ -28,30 +28,12 @@ var app = angular
         controller: 'PostsCtrl'
       })
       .when('/posts/:postId', {
-        templateUrl: 'views/showpost.html',
-        controller: 'PostViewCtrl'
+        templateUrl: 'views/posts.html',
+        controller: 'PostsCtrl'
       })
       .when('/news', {
         templateUrl: 'views/news.html',
         controller: 'NewsCtrl'
-      })
-      .when('/register', {
-        templateUrl: 'views/register.html',
-        controller: 'AuthCtrl',
-        resolve: {
-          user: function(Auth) {
-            return Auth.resolveUser();
-          }
-        }
-      })
-      .when('/login', {
-        templateUrl: 'views/login.html',
-        controller: 'AuthCtrl',
-        resolve: {
-          user: function(Auth) {
-            return Auth.resolveUser();
-          }
-        }
       })
       .when('/', {
         templateUrl: 'views/main.html',
@@ -64,12 +46,12 @@ var app = angular
         templateUrl: 'views/profile.html',
         controller: 'ProfileCtrl'
       })
-      .when('/register2', {
-        templateUrl : 'views/register2.html',
+      .when('/register', {
+        templateUrl : 'views/register.html',
         controller: 'AuthenticationCtrl'
       })
-      .when('/login2', {
-        templateUrl : 'views/login2.html',
+      .when('/login', {
+        templateUrl : 'views/login.html',
         controller : 'AuthenticationCtrl'
       })
       .when('/communities',{

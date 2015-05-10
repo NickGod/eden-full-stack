@@ -85,8 +85,33 @@ router.delete('/posts/delete/:post_id', function(req, res){
 });
 
 //comments api
+router.get('/comments/:postId', function(req, res){
+  commentRepository.getCommentsByPostId(req.params.postId, function (err, comments) {
+    if(!err){
+      res.send(comments);
+    } else{
+      res.send({error : err});
+    }
+  })
+});
+
 router.post('/comments/create', function(req, res){
-  commentRepository.createComment(req,res);
+  var comment = {
+    postId : req.body.postId,
+    userId : req.body.userId,
+    text : req.body.text
+  };
+  commentRepository.createComment(comment, function(err, comment){
+    if(!err){
+      res.send({
+        success : true, 
+        comment : comment.commentId
+      });
+    }
+    else{
+      res.send({error : err.message});
+    }
+  });
 });
 
 router.post('/comments/update/:comment_id', function(req, res){

@@ -1,8 +1,8 @@
 'use strict';
 
-app.controller('CommunitiesCtrl', function ($scope, $location, $window, Communities) {
+app.controller('CommunitiesCtrl', function ($scope, $location, $window, CommunitiesService) {
 
-	Communities.all(function(communities){
+	CommunitiesService.all(function(communities){
 		$scope.communities = communities;
 	});
 	
